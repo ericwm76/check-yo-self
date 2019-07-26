@@ -6,7 +6,31 @@
 }
 
 body {
+  display: grid;
+  grid-template-rows: 8vh 1fr;
+  grid-template-columns: 40vh 1fr;
+  grid-template-areas: 
+    'nav nav'
+    'section main'
   background-color: #F3F6F7;
   font-family: 'Open Sans', sans-serif;
   height: 100vh;
+}
+
+nav {
+  grid-area: nav;
+  display: flex;
+  width: 100%;
+  background-color: #1F1F3D;
+  justify-content: space-between;
+  color: #FFFFFF;
+}
+
+nav h1 span {
+  color: #FFC30C;
+}
+
+img {
+  height: 30px;
+  width: 30px;
 }
