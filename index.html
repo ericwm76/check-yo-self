@@ -13,17 +13,20 @@
       <h1>Check <span>Yo'</span> Self
       </h1>
       <div class="nav__search">
-          <img src="images/search.svg" id="mag-image" alt="image of a magnifying glass">
-          <input class="nav__input" id="search-input" placeholder="Search">
-        </div>
+        <img src="images/search.svg" id="mag-image" alt="image of a magnifying glass">
+        <input class="nav__input" id="search-input" placeholder="Search">
+      </div>
     </nav>
     <section>
       <form>
         <label class="section__label" for="task-title-input">Task Title</label>
         <input class="section__input" id="task-title-input">
+        <ul></ul>
         <label class="section__label" for="task-item-input">Task Item</label>
-        <input class="section__input" id="task-item-input">
-        <img src="images/plus.svg">
+        <div>
+          <input class="section__input" id="task-item-input">
+          <img src="images/plus.svg">
+        </div>
         <button class="section__button" id="make-list-btn" disabled>Make Task List</button>
         <button class="section__button" id="clear-all-btn" disabled>Clear All</button>
         <button class="section__button" id="urgency-filter-btn" disabled>Filter By Urgency</button>
