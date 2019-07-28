@@ -97,9 +97,29 @@ section form button {
 }
 
 main {
-
+  padding: 20px;
 }
 
 article {
-  
+  background-color: #FAFDFF;
+  border: 1px solid #C7D3D8;
+  color: #1F1F3D;
+  padding: 10px;
+  /*height: fit-content;*/
+  width: 300px;
+}
+
+article h3 {
+  font-weight: 800;
+  border-bottom: 1px solid #C7D3D8;
+}
+
+article ul {
+  height: auto;
+  border-bottom: 1px solid #C7D3D8;
+}
+
+article footer {
+  display: flex;
+  justify-content: space-between;
 }
