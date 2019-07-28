@@ -46,7 +46,7 @@ function updateCardEvents(e) {
   };
 
   if (e.target.closest('#urgent-image')) {
-    toggleUrgent(e);
+    changeUrgency(e);
   };
 };
 
@@ -134,7 +134,19 @@ function removeList(e) {
   // injectIntro();
 };
 
-function toggleUrgent() {
+function changeUrgencyImg(e) {
   var urgentActive = 'images/urgent-active.svg';
   var urgentNotActive = 'images/urgent.svg';
-}
+
+  if (toDoArray[getIndex(e)].urgent === true) {
+    e.target.src = urgentActive;
+  } else {
+    e.target.src = urgentNotActive;
+  };
+};
+
+function changeUrgency(e) {
+  toDoArray[getIndex(e)].urgent = !toDoArray[getIndex(e)].urgent;
+  toDoArray[getIndex(e)].saveToStorage(toDoArray);
+  changeUrgencyImg(e);
+};
