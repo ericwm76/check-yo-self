@@ -10,8 +10,9 @@ class ToDoList {
     localStorage.setItem("array", JSON.stringify(gblArray));
   };
 
-  deleteFromStorage() {
-
+  deleteFromStorage(delID) {
+    toDoArray = toDoArray.filter(id => {return parseInt(delID) !== id.id});
+    this.saveToStorage(toDoArray);
   };
 
   updateToDo() {

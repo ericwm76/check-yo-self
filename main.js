@@ -9,11 +9,13 @@ var makeListBtn = document.querySelector('#make-list-btn');
 var clearAllBtn = document.querySelector('clear-all-btn');
 var filterUrgencyBtn = document.querySelector('urgency-filter-btn');
 
-leftSection.addEventListener('click', createTaskEvents)
+leftSection.addEventListener('click', createTaskEvents);
 titleInput.addEventListener('keyup', disableSave);
+mainSection.addEventListener('click', updateCardEvents);
 
 // window.addEventListener('load', startOnLoad(e))
 getFromStorage();
+persistOnLoad();
 
 function createTaskEvents(e) {
   e.preventDefault();
@@ -39,12 +41,12 @@ function createTaskEvents(e) {
 
 function updateCardEvents(e) {
   e.preventDefault();
-  if (e.target.closest('#delete-btn')) {
-
+  if (e.target.id === 'delete-btn') {
+    removeList(e);
   };
 
   if (e.target.closest('#urgent-image')) {
-
+    toggleUrgent(e);
   };
 };
 
@@ -55,6 +57,12 @@ function getFromStorage() {
     toDoArray = JSON.parse(localStorage.getItem('array')).map(element => new ToDoList(element));
     // sortLists();
   };
+};
+
+function persistOnLoad() {
+  toDoArray.forEach(function(toDoObj) {
+    displayList(toDoObj);
+  });
 };
 
 function sortLists() {
@@ -108,3 +116,25 @@ function disableSave() {
     makeListBtn.disabled = false;
   };
 };
+
+function getIdentifier(e) {
+  return e.target.closest('article').dataset.identifier;
+};
+
+function getIndex(e) {
+  return toDoArray.findIndex(function(id) {
+    return parseInt(getIdentifier(e)) === id.id;
+  });
+};
+
+function removeList(e) {
+  console.log('removeList ran');
+  e.target.closest('article').remove();
+  toDoArray[getIndex(e)].deleteFromStorage(getIdentifier(e));
+  // injectIntro();
+};
+
+function toggleUrgent() {
+  var urgentActive = 'images/urgent-active.svg';
+  var urgentNotActive = 'images/urgent.svg';
+}
