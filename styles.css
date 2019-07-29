@@ -109,16 +109,17 @@ section form button {
 }
 
 main {
-  padding: 20px;
+  /*padding: 20px;*/
 }
 
 article {
   background-color: #FAFDFF;
   border: 1px solid #C7D3D8;
   color: #1F1F3D;
+  margin: 5%;
   padding: 10px;
   /*height: fit-content;*/
-  width: 300px;
+  width: 40%;
 }
 
 article h3 {

@@ -1,4 +1,5 @@
 var toDoArray = [];
+var currentTasks = [];
 
 var leftSection = document.querySelector('section');
 var mainSection = document.querySelector('main');
@@ -71,19 +72,36 @@ function sortLists() {
 
 };
 
-function createTasks() {
+class Task {
+  constructor(taskObj) {
+    this.task = taskObj.task;
+    this.id = taskObj.id || Date.now();
+    this.complete = taskObj.complete || false;
+  }; 
+};
+
+function createTasks(e) {
   console.log('createTasks ran');
+  if (taskInput.value !== '') {
+    var newTask = new Task({task: taskInput.value, id: Date.now(), complete: false});
+
+    currentTasks.push(newTask);
+    displayTasks(newTask);
+  };
+};  
+
+function displayTasks(taskObj) {
   tasksToCreate.insertAdjacentHTML('afterbegin', 
     `<div>
       <img src="images/delete.svg" id="section-delete-btn">
-      <li>${taskInput.value}<li>
-    </div>
-    `);
+      <li class="" data-identifier="${taskObj.id}">${taskObj.task}<li>
+    </div>`
+  );
 };
 
 function createList(e) {
   console.log('createList ran');
-    var newList = new ToDoList({title: titleInput.value, /*tasks: ,*/ id: Date.now(), urgent: false});
+    var newList = new ToDoList({title: titleInput.value, tasks: currentTasks, id: Date.now(), urgent: false});
 
     toDoArray.push(newList);
     newList.saveToStorage(toDoArray);
@@ -106,7 +124,9 @@ function displayList(toDoObj) {
     `
     <article class="article" data-identifier="${toDoObj.id}">
       <h3 class="article__title" contenteditable="true">${toDoObj.title}</h3>
-        <ul class="article__ul" id="card-task-list" contenteditable="true">${toDoObj.tasks}</ul> 
+        <ul class="article__ul" id="card-task-list" contenteditable="true">${toDoObj.tasks.forEach(displayTasks() {
+          tasksToCreate.insertAdjacentHTML('afterbegin', )
+        })}</ul> 
       <footer class="article__footer">  
         <img src="${urgent}" id="urgent-image" alt="lightning bolt icon">
         <img src="images/delete.svg" id="delete-btn" alt="green x">
