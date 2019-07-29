@@ -7,35 +7,37 @@ var searchBar = document.querySelector('.nav__search');
 var titleInput = document.querySelector('#task-title-input');
 var taskInput = document.querySelector('#task-item-input');
 var makeListBtn = document.querySelector('#make-list-btn');
-var clearAllBtn = document.querySelector('clear-all-btn');
-var filterUrgencyBtn = document.querySelector('urgency-filter-btn');
+var clearAllBtn = document.querySelector('#clear-all-btn');
+var filterUrgencyBtn = document.querySelector('#urgency-filter-btn');
 var tasksToCreate = document.querySelector('#tasks-to-create');
 
 leftSection.addEventListener('click', createTaskEvents);
-// titleInput.addEventListener('keyup', disableMakeListBtn);
+titleInput.addEventListener('keyup', enableMakeListBtn);
 mainSection.addEventListener('click', updateCardEvents);
 
 // window.addEventListener('load', startOnLoad(e))
 getFromStorage();
 persistOnLoad();
-// disableMakeListBtn();
+enableMakeListBtn();
+enableClearAllBtn();
 
 function createTaskEvents(e) {
   e.preventDefault();
-  console.log('createTaskEvents ran');
   if (e.target.id === 'make-list-btn') {
     createList();
+    enableMakeListBtn();
     clearAllInputs();
-    // disableMakeListBtn();
   };
   
   if (e.target.id === 'add-task-btn') {
     createTasks();
     clearTaskInput();
+    enableMakeListBtn();
   };
 
 
   if (e.target.id === 'clear-all-btn') {
+    enableClearAllBtn();
     clearAllInputs();
   };
 
@@ -72,7 +74,6 @@ function persistOnLoad() {
 };
 
 function createTasks(e) {
-  console.log('createTasks ran');
   if (taskInput.value !== '') {
     var newTask = new Task({task: taskInput.value, id: Date.now(), complete: false});
     currentTasks.push(newTask);
@@ -92,7 +93,6 @@ function displayTasks(taskObj) {
 };
 
 function createList(e) {
-  console.log('createList ran');
     var newList = new ToDoList({title: titleInput.value, tasks: currentTasks, id: Date.now(), urgent: false});
 
     toDoArray.push(newList);
@@ -103,9 +103,7 @@ function createList(e) {
 };
 
 function displayList(toDoObj) {
-  console.log('displayList ran');
   var urgent = 'images/urgent.svg';
-  console.log(toDoObj.tasks);
 
   if (toDoObj.urgent === true) {
     urgent = 'images/urgent-active.svg'
@@ -129,7 +127,6 @@ function makeListItems(taskObj) {
   var checked;
   var fontStyle;
   var listItems = '';
-  console.log(taskObj);
 
   taskObj.forEach(function(li) {
     listItems += 
@@ -150,18 +147,28 @@ function clearTaskInput() {
 function clearAllInputs() {
   titleInput.value = '';
   taskInput.value = '';
+  currentTasks = [];
   clearTaskList();
+  enableMakeListBtn();
 };
 
 function clearTaskList() {
   tasksToCreate.innerHTML = '';
 };
 
-function disableMakeListBtn() {
-  if (titleInput.value !== '' || tasksToCreate.innerHTML !== '') {
+function enableMakeListBtn() {
+  if (titleInput.value !== '' && tasksToCreate.innerHTML !== '') {
     makeListBtn.disabled = false;
   } else {
     makeListBtn.disabled = true;
+  };
+};
+
+function enableClearAllBtn() {
+  if(titleInput.value !== '' || tasksToCreate.innerHTML !== '') {
+    clearAllBtn.disabled = false;
+  } else {
+    clearAllBtn.disabled = true;
   };
 };
 
@@ -176,7 +183,6 @@ function getIndex(e) {
 };
 
 function removeList(e) {
-  console.log('removeList ran');
   e.target.closest('article').remove();
   toDoArray[getIndex(e)].deleteFromStorage(getIdentifier(e));
   // injectIntro();
