@@ -12,33 +12,33 @@ var filterUrgencyBtn = document.querySelector('#urgency-filter-btn');
 var tasksToCreate = document.querySelector('#tasks-to-create');
 
 leftSection.addEventListener('click', createTaskEvents);
-titleInput.addEventListener('keyup', enableMakeListBtn);
+titleInput.addEventListener('keyup', enableBtns);
 mainSection.addEventListener('click', updateCardEvents);
 
 // window.addEventListener('load', startOnLoad(e))
 getFromStorage();
 persistOnLoad();
-enableMakeListBtn();
-enableClearAllBtn();
+enableBtns();
 
 function createTaskEvents(e) {
   e.preventDefault();
   if (e.target.id === 'make-list-btn') {
     createList();
-    enableMakeListBtn();
     clearAllInputs();
+    enableBtns();
   };
   
   if (e.target.id === 'add-task-btn') {
     createTasks();
     clearTaskInput();
-    enableMakeListBtn();
+    enableBtns();
   };
 
 
   if (e.target.id === 'clear-all-btn') {
-    enableClearAllBtn();
+    enableBtns();
     clearAllInputs();
+    enableBtns();
   };
 
   // if (e.target.id === 'urgency-filter-btn') {
@@ -145,15 +145,20 @@ function clearTaskInput() {
 };
 
 function clearAllInputs() {
+  console.log('ran clearAllInputs')
   titleInput.value = '';
   taskInput.value = '';
   currentTasks = [];
   clearTaskList();
-  enableMakeListBtn();
 };
 
 function clearTaskList() {
   tasksToCreate.innerHTML = '';
+};
+
+function enableBtns() {
+  enableMakeListBtn();
+  enableClearAllBtn();
 };
 
 function enableMakeListBtn() {
@@ -165,7 +170,7 @@ function enableMakeListBtn() {
 };
 
 function enableClearAllBtn() {
-  if(titleInput.value !== '' || tasksToCreate.innerHTML !== '') {
+  if (titleInput.value !== '' || tasksToCreate.innerHTML !== '') {
     clearAllBtn.disabled = false;
   } else {
     clearAllBtn.disabled = true;
