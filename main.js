@@ -34,11 +34,14 @@ function createTaskEvents(e) {
     enableBtns();
   };
 
-
   if (e.target.id === 'clear-all-btn') {
     enableBtns();
     clearAllInputs();
     enableBtns();
+  };
+
+  if (e.target.id === 'section-delete-btn') {
+    removeTask(e);
   };
 
   // if (e.target.id === 'urgency-filter-btn') {
@@ -132,7 +135,7 @@ function makeListItems(taskObj) {
     listItems += 
     `
     <li class="" data-identifier="${li.id}">
-    <img src="images/delete.svg" id="task-delete-btn">
+    <img src="images/checkbox.svg" id="task-complete-btn">
     ${li.task}
     </li>
     `
@@ -191,6 +194,24 @@ function removeList(e) {
   e.target.closest('article').remove();
   toDoArray[getIndex(e)].deleteFromStorage(getIdentifier(e));
   // injectIntro();
+};
+
+function getTaskIdentifier(e) {
+  return e.target.closest('li').dataset.identifier;
+};
+
+function getTaskIndex(e) {
+  return currentTasks.findIndex(function(id) {
+    return parseInt(getTaskIdentifier(e)) === id.id;
+  });
+};
+
+function removeTask(e) {
+  // debugger;
+  console.log(currentTasks[getTaskIndex(e)], e.target.closest('li'))
+  currentTasks.splice(getTaskIndex(e), 1);
+  e.target.closest('li').remove();
+  // return currentTasks;
 };
 
 function changeUrgencyImg(e) {
