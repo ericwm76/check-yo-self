@@ -58,6 +58,10 @@ function updateCardEvents(e) {
   if (e.target.closest('#urgent-image')) {
     changeUrgency(e);
   };
+
+  if (e.target.closest('#task-complete-btn')) {
+    completeTask(e);
+  };
 };
 
 function getFromStorage() {
@@ -127,16 +131,14 @@ function displayList(toDoObj) {
 };
 
 function makeListItems(taskObj) {
-  var checked;
-  var fontStyle;
   var listItems = '';
 
   taskObj.forEach(function(li) {
     listItems += 
     `
-    <li class="" data-identifier="${li.id}">
-    <img src="images/checkbox.svg" id="task-complete-btn">
-    ${li.task}
+    <li class="" data-identifier="${li.id}" data-complete="${li.complete}">
+      <img src="images/checkbox.svg" id="task-complete-btn">
+      ${li.task}
     </li>
     `
   });
@@ -207,21 +209,29 @@ function getTaskIndex(e) {
 };
 
 function removeTask(e) {
-  // debugger;
-  console.log(currentTasks[getTaskIndex(e)], e.target.closest('li'))
   currentTasks.splice(getTaskIndex(e), 1);
   e.target.closest('li').remove();
-  // return currentTasks;
+};
+
+function completeTask(e) {
+  var completedStatus = JSON.parse(e.target.closest('li').dataset.complete);
+     
+  completedStatus = !completedStatus;
+
+  if (completedStatus === true) {
+    e.target.src = 'images/checkbox-active.svg';
+    e.target.closest('li').dataset.complete = 'true';
+  } else {
+    e.target.src = 'images/checkbox.svg';
+    e.target.closest('li').dataset.complete = 'false';
+  };
 };
 
 function changeUrgencyImg(e) {
-  var urgentActive = 'images/urgent-active.svg';
-  var urgentNotActive = 'images/urgent.svg';
-
   if (toDoArray[getIndex(e)].urgent === true) {
-    e.target.src = urgentActive;
+    e.target.src = 'images/urgent-active.svg';
   } else {
-    e.target.src = urgentNotActive;
+    e.target.src = 'images/urgent.svg';
   };
 };
 
