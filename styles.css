@@ -50,8 +50,8 @@ nav div input {
 }
 
 img {
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
 }
 
 section {
@@ -77,14 +77,26 @@ section form input {
   width: 100%;
 }
 
+section form ul {
+  list-style: none;
+}
+
+section form ul div {
+  margin-bottom: 20px;
+}
+
+#section-delete-button {
+  fill: #1F1F3D;
+}
+
 section form div {
   /*background-color: #1F1F3D;*/
   display: flex;
   justify-content: space-between;
 }
 
-section form div img {
-  background-color: #1F1F3D
+#add-task-btn {
+  background-color: #1F1F3D;
 }
 
 section form button {

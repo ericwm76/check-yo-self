@@ -8,6 +8,7 @@ var taskInput = document.querySelector('#task-item-input');
 var makeListBtn = document.querySelector('#make-list-btn');
 var clearAllBtn = document.querySelector('clear-all-btn');
 var filterUrgencyBtn = document.querySelector('urgency-filter-btn');
+var tasksToCreate = document.querySelector('#tasks-to-create');
 
 leftSection.addEventListener('click', createTaskEvents);
 titleInput.addEventListener('keyup', disableSave);
@@ -25,9 +26,10 @@ function createTaskEvents(e) {
     clearInputs();
     disableSave();
   };
-  // if (e.target.id === 'task-item-input') {
-
-  // };
+  
+  if (e.target.id === 'add-task-btn') {
+    createTasks();
+  };
 
 
   // if (e.target.id === 'clear-all-btn') {
@@ -69,6 +71,16 @@ function sortLists() {
 
 };
 
+function createTasks() {
+  console.log('createTasks ran');
+  tasksToCreate.insertAdjacentHTML('afterbegin', 
+    `<div>
+      <img src="images/delete.svg" id="section-delete-btn">
+      <li>${taskInput.value}<li>
+    </div>
+    `);
+};
+
 function createList(e) {
   console.log('createList ran');
     var newList = new ToDoList({title: titleInput.value, /*tasks: ,*/ id: Date.now(), urgent: false});
@@ -94,7 +106,7 @@ function displayList(toDoObj) {
     `
     <article class="article" data-identifier="${toDoObj.id}">
       <h3 class="article__title" contenteditable="true">${toDoObj.title}</h3>
-        <ul class="article__ul" id="task-list" contenteditable="true">${toDoObj.tasks}</ul> 
+        <ul class="article__ul" id="card-task-list" contenteditable="true">${toDoObj.tasks}</ul> 
       <footer class="article__footer">  
         <img src="${urgent}" id="urgent-image" alt="lightning bolt icon">
         <img src="images/delete.svg" id="delete-btn" alt="green x">
@@ -104,12 +116,12 @@ function displayList(toDoObj) {
 
 function clearInputs() {
   titleInput.value = '';
-  // bodyInput.value = '';
+  taskInput.value = '';
 };
 
 function disableSave() {
   if (titleInput.value === '' 
-    // || bodyInput.value === ''
+    || taskInput.value === ''
     ) {
     makeListBtn.disabled = true;
   } else {
