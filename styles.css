@@ -1,0 +1,142 @@
+* {
+  /*border: 1px solid green;*/
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #F3F6F7;
+  display: grid;
+  font-family: 'Open Sans', sans-serif;
+  grid-template-columns: 34vw 1fr;
+  grid-template-rows: 8vh 1fr;
+  height: 100vh;
+}
+
+ul {
+  list-style: none;
+}
+
+nav {
+  align-items: center;
+  background-color: #1F1F3D;
+  color: #FFFFFF;
+  display: flex;
+  font-size: 1.5em;
+  grid-column: span 2;
+  justify-content: space-between;
+  padding: 20px;
+  width: 100%;
+}
+
+nav h1 {
+}
+
+nav h1 span {
+  color: #FFC30C;
+}
+
+nav div {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
+
+nav div img {
+  background-color: #F3F6F7;
+}
+
+nav div input {
+  height: 30px;
+  width: 90%;
+}
+
+img {
+  height: 20px;
+  width: 20px;
+}
+
+section {
+  align-items: center;
+  background-color: #587A8A;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 5%;
+}
+
+section form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+section form input {
+  border: 1px solid #1F1F3D;
+  border-radius: 3px;
+  height: 30px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+section form ul {
+  list-style: none;
+}
+
+section form ul div {
+  margin-bottom: 20px;
+}
+
+#section-delete-button {
+  fill: #1F1F3D;
+}
+
+section form div {
+  /*background-color: #1F1F3D;*/
+  display: flex;
+  justify-content: space-between;
+}
+
+#add-task-btn {
+  background-color: #1F1F3D;
+}
+
+section form button {
+  background-color: #1F1F3D;
+  border: 1px solid #1F1F3D;
+  border-radius: 3px;
+  color: #FFFFFF;
+  height: 30px;
+  margin-bottom: 20px;
+}
+
+main {
+  /*padding: 20px;*/
+}
+
+article {
+  background-color: #FAFDFF;
+  border: 1px solid #C7D3D8;
+  color: #1F1F3D;
+  margin: 5%;
+  padding: 10px;
+  /*height: fit-content;*/
+  width: 40%;
+}
+
+article h3 {
+  font-weight: 800;
+  border-bottom: 1px solid #C7D3D8;
+}
+
+article ul {
+  height: auto;
+  border-bottom: 1px solid #C7D3D8;
+}
+
+article footer {
+  display: flex;
+  justify-content: space-between;
+}

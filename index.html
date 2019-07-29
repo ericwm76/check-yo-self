@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      Check Yo'self
+    </title>
+  </head>
+  <body>
+    <nav>
+      <h1>Check <span>Yo'</span> Self
+      </h1>
+      <div class="nav__search">
+        <img src="images/search.svg" id="mag-image" alt="image of a magnifying glass">
+        <input class="nav__input" id="search-input" placeholder="Search">
+      </div>
+    </nav>
+    <section>
+      <form>
+        <label class="section__label" for="task-title-input">Task Title</label>
+        <input class="section__input" id="task-title-input">
+        <ul id="tasks-to-create"></ul>
+        <label class="section__label" for="task-item-input">Task Item</label>
+        <div>
+          <input class="section__input" id="task-item-input">
+          <img src="images/plus.svg" id="add-task-btn">
+        </div>
+        <button class="section__button" id="make-list-btn">Make Task List</button>
+        <button class="section__button" id="clear-all-btn">Clear All</button>
+        <button class="section__button" id="urgency-filter-btn">Filter By Urgency</button>
+      </form>
+    </section>
+    <main>
+    </main>
+    <script type="text/javascript" src="todo-list.js"></script>
+    <script type="text/javascript" src="task.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+  </body>
+</html>
