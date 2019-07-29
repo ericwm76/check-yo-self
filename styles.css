@@ -14,6 +14,10 @@ body {
   height: 100vh;
 }
 
+ul {
+  list-style: none;
+}
+
 nav {
   align-items: center;
   background-color: #1F1F3D;

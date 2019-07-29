@@ -12,30 +12,32 @@ var filterUrgencyBtn = document.querySelector('urgency-filter-btn');
 var tasksToCreate = document.querySelector('#tasks-to-create');
 
 leftSection.addEventListener('click', createTaskEvents);
-titleInput.addEventListener('keyup', disableSave);
+// titleInput.addEventListener('keyup', disableMakeListBtn);
 mainSection.addEventListener('click', updateCardEvents);
 
 // window.addEventListener('load', startOnLoad(e))
 getFromStorage();
 persistOnLoad();
+// disableMakeListBtn();
 
 function createTaskEvents(e) {
   e.preventDefault();
   console.log('createTaskEvents ran');
   if (e.target.id === 'make-list-btn') {
     createList();
-    clearInputs();
-    disableSave();
+    clearAllInputs();
+    // disableMakeListBtn();
   };
   
   if (e.target.id === 'add-task-btn') {
     createTasks();
+    clearTaskInput();
   };
 
 
-  // if (e.target.id === 'clear-all-btn') {
-
-  // };
+  if (e.target.id === 'clear-all-btn') {
+    clearAllInputs();
+  };
 
   // if (e.target.id === 'urgency-filter-btn') {
 
@@ -58,44 +60,34 @@ function getFromStorage() {
     toDoArray = [];
   } else {
     toDoArray = JSON.parse(localStorage.getItem('array')).map(element => new ToDoList(element));
-    // sortLists();
   };
 };
 
 function persistOnLoad() {
-  toDoArray.forEach(function(toDoObj) {
-    displayList(toDoObj);
-  });
-};
-
-function sortLists() {
-
-};
-
-class Task {
-  constructor(taskObj) {
-    this.task = taskObj.task;
-    this.id = taskObj.id || Date.now();
-    this.complete = taskObj.complete || false;
-  }; 
+  if (toDoArray !== []) {
+    toDoArray.forEach(function(toDoObj) {
+      displayList(toDoObj);
+    });
+  };
 };
 
 function createTasks(e) {
   console.log('createTasks ran');
   if (taskInput.value !== '') {
     var newTask = new Task({task: taskInput.value, id: Date.now(), complete: false});
-
     currentTasks.push(newTask);
     displayTasks(newTask);
   };
 };  
 
 function displayTasks(taskObj) {
-  tasksToCreate.insertAdjacentHTML('afterbegin', 
-    `<div>
-      <img src="images/delete.svg" id="section-delete-btn">
-      <li class="" data-identifier="${taskObj.id}">${taskObj.task}<li>
-    </div>`
+  tasksToCreate.insertAdjacentHTML('beforeend', 
+    `
+    <li class="" data-identifier="${taskObj.id}">
+    <img src="images/delete.svg" id="section-delete-btn">
+    ${taskObj.task}
+    </li>
+    `
   );
 };
 
@@ -113,6 +105,7 @@ function createList(e) {
 function displayList(toDoObj) {
   console.log('displayList ran');
   var urgent = 'images/urgent.svg';
+  console.log(toDoObj.tasks);
 
   if (toDoObj.urgent === true) {
     urgent = 'images/urgent-active.svg'
@@ -124,9 +117,7 @@ function displayList(toDoObj) {
     `
     <article class="article" data-identifier="${toDoObj.id}">
       <h3 class="article__title" contenteditable="true">${toDoObj.title}</h3>
-        <ul class="article__ul" id="card-task-list" contenteditable="true">${toDoObj.tasks.forEach(displayTasks() {
-          tasksToCreate.insertAdjacentHTML('afterbegin', )
-        })}</ul> 
+      <ul class="article__ul" id="card-task-list" contenteditable="true">${makeListItems(toDoObj.tasks)}</ul> 
       <footer class="article__footer">  
         <img src="${urgent}" id="urgent-image" alt="lightning bolt icon">
         <img src="images/delete.svg" id="delete-btn" alt="green x">
@@ -134,18 +125,43 @@ function displayList(toDoObj) {
     `);
 };
 
-function clearInputs() {
-  titleInput.value = '';
+function makeListItems(taskObj) {
+  var checked;
+  var fontStyle;
+  var listItems = '';
+  console.log(taskObj);
+
+  taskObj.forEach(function(li) {
+    listItems += 
+    `
+    <li class="" data-identifier="${li.id}">
+    <img src="images/delete.svg" id="task-delete-btn">
+    ${li.task}
+    </li>
+    `
+  });
+    return listItems;
+};
+
+function clearTaskInput() {
   taskInput.value = '';
 };
 
-function disableSave() {
-  if (titleInput.value === '' 
-    || taskInput.value === ''
-    ) {
-    makeListBtn.disabled = true;
-  } else {
+function clearAllInputs() {
+  titleInput.value = '';
+  taskInput.value = '';
+  clearTaskList();
+};
+
+function clearTaskList() {
+  tasksToCreate.innerHTML = '';
+};
+
+function disableMakeListBtn() {
+  if (titleInput.value !== '' || tasksToCreate.innerHTML !== '') {
     makeListBtn.disabled = false;
+  } else {
+    makeListBtn.disabled = true;
   };
 };
 
