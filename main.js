@@ -78,10 +78,13 @@ function getFromStorage() {
 
 function injectAddListMsg() {
   if (mainSection.innerHTML === '' || mainSection.innerHTML === ' ') {
-   mainSection.insertAdjacentHTML("afterbegin", 
-    `<article id="add-list-msg">
-      <p>Add a to-do list and get checkin' those boxes!</p>
-    </article>`)
+    mainSection.insertAdjacentHTML("afterbegin", 
+      `
+      <article id="add-list-msg">
+        <p>Add a to-do list and get checkin' those boxes!</p>
+      </article>
+      `
+    );
   }; 
 };
 
@@ -113,16 +116,17 @@ function displayTasks(taskObj) {
 };
 
 function createList(e) {
-    var newList = new ToDoList({title: titleInput.value, tasks: currentTasks, id: Date.now(), urgent: false});
+  var newList = new ToDoList({title: titleInput.value, tasks: currentTasks, id: Date.now(), urgent: false});
 
-    toDoArray.push(newList);
-    newList.saveToStorage(toDoArray);
-    displayList(newList);
+  toDoArray.push(newList);
+  newList.saveToStorage(toDoArray);
+  displayList(newList);
 };
 
 function displayList(toDoObj) {
   var urgent;
   var urgentClass;
+  var urgentIcon;
 
   if (toDoObj.urgent === true) {
     urgent = 'images/urgent-active.svg'
@@ -139,7 +143,7 @@ function displayList(toDoObj) {
     <article class="article ${urgentClass}" id="card${toDoObj.id}" data-identifier="${toDoObj.id}">
       <h3 class="article__title ${urgentClass}" contenteditable="true" id="card-title${toDoObj.id}">${toDoObj.title}</h3>
       <ul class="article__ul ${urgentClass}" id="card-list${toDoObj.id}" contenteditable="true">${makeListItems(toDoObj.tasks)}</ul> 
-      <footer class="article__footer">  
+      <footer class="article__footer ${urgentClass}" id="card-footer${toDoObj.id}">  
         <div>
           <img src="${urgent}" id="urgent-image" alt="lightning bolt icon">
           <p class="${urgentIcon}" id="urgent-label${toDoObj.id}">URGENT</p>
@@ -149,12 +153,13 @@ function displayList(toDoObj) {
           <p id="delete-label${toDoObj.id}">DELETE</p>
         </div>
       </footer>  
-    `);
+    `
+  );
 };
 
 function makeListItems(taskObj) {
   var listItems = '';
-  console.log(taskObj);
+
   taskObj.forEach(function(li) {
     var imgSource;
     if (li.complete) {
@@ -178,7 +183,6 @@ function clearTaskInput() {
 };
 
 function clearAllInputs() {
-  console.log('ran clearAllInputs')
   titleInput.value = '';
   taskInput.value = '';
   currentTasks = [];
@@ -190,7 +194,6 @@ function clearTaskList() {
 };
 
 function enableBtns() {
-  console.log('enableBtns ran');
   enableMakeListBtn();
   enableClearAllBtn();
 };
@@ -222,7 +225,6 @@ function getIndex(e) {
 };
 
 function removeList(e) {
-  console.log(e.target.src);
   if (e.target.src.includes('delete-active.svg')) {
   e.target.closest('article').remove();
   toDoArray[getIndex(e)].deleteFromStorage(getIdentifier(e));
@@ -245,13 +247,27 @@ function removeTask(e) {
   e.target.closest('li').remove();
 };
 
+function changeTaskStyle(e) {
+  if (JSON.parse(e.target.closest('li').dataset.complete) === true) {
+    e.target.src = 'images/checkbox-active.svg';
+    e.target.closest('li').dataset.complete = 'true';
+    e.target.closest('li').classList.add('complete');
+  } else {
+    e.target.src = 'images/checkbox.svg';
+    e.target.closest('li').dataset.complete = 'false';
+    e.target.closest('li').classList.remove('complete');
+  };
+};
+
 function completeTask(e) {
   var completedStatus = JSON.parse(e.target.closest('li').dataset.complete);
   var listID = parseInt(e.target.closest('article').dataset.identifier);
   var taskID = parseInt(e.target.closest('li').dataset.identifier);
+
   var targetObj = toDoArray.find(function(todo) {
     return todo.id === listID
   });
+
   var newToDoArray = toDoArray.filter(function(todo) {
     return todo.id !== listID
   });
@@ -271,8 +287,8 @@ function completeTask(e) {
   targetObj.tasks.forEach(function(task) {
     if (task.id === taskID) {
       task.complete = !task.complete
-    }
-  })
+    };
+  });
 
   newToDoArray.push(targetObj);
   targetObj.saveToStorage(newToDoArray);
@@ -286,30 +302,24 @@ function completeTask(e) {
   // })
 
   // toDoArray[0].saveToStorage(toDoArray);
-
-
-  console.log(targetObj);
 };
 
 function changeUrgency(e) {
+  changeUrgencyImg(e);
   toDoArray[getIndex(e)].updateToDo(toDoArray);
 
-    console.log(e.target.src)
   if (e.target.src.includes('images/urgent.svg')) {
     e.target.src = 'images/urgent-active.svg'
   } else {
     e.target.src = 'images/urgent.svg'
   };
-
-  // toDoArray[getIndex(e)].saveToStorage(toDoArray);
-  changeUrgencyImg(e);
 };
 
 function changeUrgencyImg(e) {
-    // e.target.src = 'images/urgent-active.svg';
     document.querySelector(`#card${getIdentifier(e)}`).classList.toggle('urgent');
     document.querySelector(`#card-title${getIdentifier(e)}`).classList.toggle('urgent');
     document.querySelector(`#card-list${getIdentifier(e)}`).classList.toggle('urgent');
+    document.querySelector(`#card-footer${getIdentifier(e)}`).classList.toggle('urgent');
     document.querySelector(`#urgent-label${getIdentifier(e)}`).classList.toggle('urgent-icon');
 };
 
@@ -330,7 +340,7 @@ function enableDeleteBtn(e) {
   } else {
     document.querySelector(`#delete-btn${getIdentifier(e)}`).src = 'images/delete.svg';
     document.querySelector(`#delete-label${getIdentifier(e)}`).classList.remove('urgent-icon');   
-  }
+  };
 };
 
 function removeAddListMsg() {
