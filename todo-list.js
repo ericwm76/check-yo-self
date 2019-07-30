@@ -7,7 +7,7 @@ class ToDoList {
   };
 
   saveToStorage(gblArray) {
-    localStorage.setItem("array", JSON.stringify(gblArray));
+    localStorage.setItem('array', JSON.stringify(gblArray));
   };
 
   deleteFromStorage(delID) {
@@ -15,11 +15,13 @@ class ToDoList {
     this.saveToStorage(toDoArray);
   };
 
-  updateToDo() {
-
+  updateToDo(gblArray) {
+    this.urgent = !this.urgent;
+    this.saveToStorage(gblArray);
   };
 
-  updateTask() {
-    
+  updateTask(gblArray, taskIndex) {
+    this.tasks[taskIndex].complete = !this.tasks[taskIndex].complete;
+    this.saveToStorage(gblArray);
   };
 };
