@@ -20,7 +20,8 @@ class ToDoList {
     this.saveToStorage(gblArray);
   };
 
-  updateTask() {
-
+  updateTask(gblArray, taskIndex) {
+    this.tasks[taskIndex].complete = !this.tasks[taskIndex].complete;
+    this.saveToStorage(gblArray);
   };
 };

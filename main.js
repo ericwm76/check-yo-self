@@ -162,14 +162,19 @@ function makeListItems(taskObj) {
 
   taskObj.forEach(function(li) {
     var imgSource;
+    var taskComplete;
+
     if (li.complete) {
-      imgSource ='images/checkbox-active.svg';
+      imgSource = 'images/checkbox-active.svg';
+      taskComplete = 'complete'
     } else {
-      imgSource ='images/checkbox.svg'
-    }
+      imgSource = 'images/checkbox.svg';
+      taskComplete = ''
+    };
+
     listItems += 
     `
-    <li class="" data-identifier="${li.id}" data-complete="${li.complete}">
+    <li class="${taskComplete}" data-identifier="${li.id}" data-complete="${li.complete}">
       <img src="${imgSource}" id="task-complete-btn">
       ${li.task}
     </li>
@@ -215,6 +220,7 @@ function enableClearAllBtn() {
 };
 
 function getIdentifier(e) {
+  // console.log(e.target.closest('article').dataset.identifier);
   return e.target.closest('article').dataset.identifier;
 };
 
@@ -247,34 +253,18 @@ function removeTask(e) {
   e.target.closest('li').remove();
 };
 
-function changeTaskStyle(e) {
-  if (JSON.parse(e.target.closest('li').dataset.complete) === true) {
-    e.target.src = 'images/checkbox-active.svg';
-    e.target.closest('li').dataset.complete = 'true';
-    e.target.closest('li').classList.add('complete');
-  } else {
-    e.target.src = 'images/checkbox.svg';
-    e.target.closest('li').dataset.complete = 'false';
-    e.target.closest('li').classList.remove('complete');
-  };
+function completeTask(e) {
+  var listID = parseInt(getIdentifier(e));
+  var taskID = parseInt(e.target.closest('li').dataset.identifier);
+  var toDoIndex = toDoArray.findIndex(todo => todo.id === listID);
+  var taskIndex = toDoArray[toDoIndex].tasks.findIndex(task => task.id === taskID);   
+
+  toDoArray[toDoIndex].updateTask(toDoArray, taskIndex) 
+  changeTaskStyle(e);  
 };
 
-function completeTask(e) {
-  var completedStatus = JSON.parse(e.target.closest('li').dataset.complete);
-  var listID = parseInt(e.target.closest('article').dataset.identifier);
-  var taskID = parseInt(e.target.closest('li').dataset.identifier);
-
-  var targetObj = toDoArray.find(function(todo) {
-    return todo.id === listID
-  });
-
-  var newToDoArray = toDoArray.filter(function(todo) {
-    return todo.id !== listID
-  });
-     
-  completedStatus = !completedStatus;
-
-  if (completedStatus === true) {
+function changeTaskStyle(e) {
+  if (e.target.src.includes('images/checkbox.svg')) {
     e.target.src = 'images/checkbox-active.svg';
     e.target.closest('li').dataset.complete = 'true';
     e.target.closest('li').classList.add('complete');
@@ -283,25 +273,6 @@ function completeTask(e) {
     e.target.closest('li').dataset.complete = 'false';
     e.target.closest('li').classList.remove('complete');
   };
-
-  targetObj.tasks.forEach(function(task) {
-    if (task.id === taskID) {
-      task.complete = !task.complete
-    };
-  });
-
-  newToDoArray.push(targetObj);
-  targetObj.saveToStorage(newToDoArray);
-  
-  // toDoArray.forEach(function(todo) {
-  //   todo.tasks.forEach(function(task) {
-  //      if (task.id === taskID) {
-  //         task.complete = !task.complete
-  //     }
-  //   })
-  // })
-
-  // toDoArray[0].saveToStorage(toDoArray);
 };
 
 function changeUrgency(e) {
