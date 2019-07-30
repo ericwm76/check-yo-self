@@ -124,8 +124,14 @@ function displayList(toDoObj) {
       <h3 class="article__title" contenteditable="true">${toDoObj.title}</h3>
       <ul class="article__ul" id="card-task-list" contenteditable="true">${makeListItems(toDoObj.tasks)}</ul> 
       <footer class="article__footer">  
-        <img src="${urgent}" id="urgent-image" alt="lightning bolt icon">
-        <img src="images/delete.svg" id="delete-btn" alt="green x">
+        <div>
+          <img src="${urgent}" id="urgent-image" alt="lightning bolt icon">
+          <p>URGENT</p>
+        </div>
+        <div>
+          <img src="images/delete.svg" id="delete-btn" alt="green x">
+          <p>DELETE</p>
+        </div>
       </footer>  
     `);
 };
@@ -162,6 +168,7 @@ function clearTaskList() {
 };
 
 function enableBtns() {
+  console.log('enableBtns ran');
   enableMakeListBtn();
   enableClearAllBtn();
 };
