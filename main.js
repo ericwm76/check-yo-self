@@ -14,6 +14,7 @@ var tasksToCreate = document.querySelector('#tasks-to-create');
 leftSection.addEventListener('click', createTaskEvents);
 titleInput.addEventListener('keyup', enableBtns);
 mainSection.addEventListener('click', updateCardEvents);
+mainSection.addEventListener('focusout', saveCard)
 
 // window.addEventListener('load', startOnLoad(e))
 getFromStorage();
@@ -142,7 +143,7 @@ function displayList(toDoObj) {
     `
     <article class="article ${urgentClass}" id="card${toDoObj.id}" data-identifier="${toDoObj.id}">
       <h3 class="article__title ${urgentClass}" contenteditable="true" id="card-title${toDoObj.id}">${toDoObj.title}</h3>
-      <ul class="article__ul ${urgentClass}" id="card-list${toDoObj.id}" contenteditable="true">${makeListItems(toDoObj.tasks)}</ul> 
+      <ul class="article__ul ${urgentClass}" id="card-list${toDoObj.id}">${makeListItems(toDoObj.tasks)}</ul> 
       <footer class="article__footer ${urgentClass}" id="card-footer${toDoObj.id}">  
         <div>
           <img src="${urgent}" id="urgent-image" alt="lightning bolt icon">
@@ -174,7 +175,7 @@ function makeListItems(taskObj) {
 
     listItems += 
     `
-    <li class="${taskComplete}" data-identifier="${li.id}" data-complete="${li.complete}">
+    <li class="article__li ${taskComplete}" data-identifier="${li.id}" data-complete="${li.complete}" contenteditable="true">
       <img src="${imgSource}" id="task-complete-btn">
       ${li.task}
     </li>
@@ -320,4 +321,12 @@ function removeAddListMsg() {
   if (element) {
     element.parentNode.removeChild(element);
   };  
+};
+
+function saveCard(e) {
+  if (e.target.closest('.article__title')) {
+    var articleTitle = e.target.closest('.article__title').innerText;
+    toDoArray[getIndex(e)].title = articleTitle;
+    toDoArray[getIndex(e)].saveToStorage(toDoArray);
+  };
 };

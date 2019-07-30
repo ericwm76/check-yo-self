@@ -126,12 +126,21 @@ section button {
   width: 100%;
 }
 
+main {
+  column-count: 2;
+  column-width: 18em;
+  padding: 10px;
+  width: 100%;
+}
+
 article {
   background-color: #FAFDFF;
   border: 1px solid #C7D3D8;
+  break-inside: avoid;
   color: #1F1F3D;
-  margin: 5%;
-  width: 40%;
+  /*margin: 5%;*/
+  margin-bottom: 25px;
+  /*width: 40%;*/
 }
 
 article h3 {

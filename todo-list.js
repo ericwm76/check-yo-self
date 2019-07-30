@@ -7,7 +7,7 @@ class ToDoList {
   };
 
   saveToStorage(gblArray) {
-    localStorage.setItem("array", JSON.stringify(gblArray));
+    localStorage.setItem('array', JSON.stringify(gblArray));
   };
 
   deleteFromStorage(delID) {
