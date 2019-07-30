@@ -24,6 +24,7 @@ injectAddListMsg();
 function createTaskEvents(e) {
   e.preventDefault();
   if (e.target.id === 'make-list-btn') {
+    removeAddListMsg();
     createList();
     clearAllInputs();
     enableBtns();
@@ -54,6 +55,7 @@ function updateCardEvents(e) {
   e.preventDefault();
   if (e.target.id === 'delete-btn') {
     removeList(e);
+    injectAddListMsg();
   };
 
   if (e.target.closest('#urgent-image')) {
@@ -62,6 +64,7 @@ function updateCardEvents(e) {
 
   if (e.target.closest('#task-complete-btn')) {
     completeTask(e);
+    enableDeleteBtn(e);
   };
 };
 
@@ -74,7 +77,6 @@ function getFromStorage() {
 };
 
 function injectAddListMsg() {
-  console.log('injectAddListMsg ran');
   if (mainSection.innerHTML === '' || mainSection.innerHTML === ' ') {
    mainSection.insertAdjacentHTML("afterbegin", 
     `<article id="add-list-msg">
@@ -115,8 +117,6 @@ function createList(e) {
 
     toDoArray.push(newList);
     newList.saveToStorage(toDoArray);
-    /*sortLists();
-    removeIntro();*/
     displayList(newList);
 };
 
@@ -223,7 +223,7 @@ function getIndex(e) {
 function removeList(e) {
   e.target.closest('article').remove();
   toDoArray[getIndex(e)].deleteFromStorage(getIdentifier(e));
-  // injectIntro();
+  injectAddListMsg();
 };
 
 function getTaskIdentifier(e) {
@@ -243,6 +243,14 @@ function removeTask(e) {
 
 function completeTask(e) {
   var completedStatus = JSON.parse(e.target.closest('li').dataset.complete);
+  var listID = parseInt(e.target.closest('article').dataset.identifier);
+  var taskID = parseInt(e.target.closest('li').dataset.identifier);
+  var targetObj = toDoArray.find(function(todo) {
+    return todo.id === listID
+  });
+  var newToDoArray = toDoArray.filter(function(todo) {
+    return todo.id !== listID
+  });
      
   completedStatus = !completedStatus;
 
@@ -255,21 +263,13 @@ function completeTask(e) {
     e.target.closest('li').dataset.complete = 'false';
     e.target.closest('li').classList.remove('complete');
   };
-  var listID = parseInt(e.target.closest('article').dataset.identifier);
-  var taskID = parseInt(e.target.closest('li').dataset.identifier);
-  console.log(listID, taskID);
-  var targetObj = toDoArray.find(function(todo) {
-    return todo.id === listID
-  });
+
   targetObj.tasks.forEach(function(task) {
     if (task.id === taskID) {
       task.complete = !task.complete
     }
-    console.log(task)
   })
-  var newToDoArray = toDoArray.filter(function(todo) {
-    return todo.id !== listID
-  })
+
   newToDoArray.push(targetObj);
   targetObj.saveToStorage(newToDoArray);
   
@@ -305,4 +305,27 @@ function changeUrgencyImg(e) {
   };
 };
 
-function enableDeleteBtn()
+function enableDeleteBtn(e) {
+  var listItems = e.target.parentNode.parentNode.children;
+  var listItemsArray = Array.from(listItems);
+  var completeCount = 0;
+
+  listItemsArray.forEach(function(listItem) {
+    // console.log(JSON.parse(listItem.dataset.complete));
+    if (JSON.parse(listItem.dataset.complete) === true) {
+      completeCount++;
+    };
+  });
+
+  if (completeCount === listItemsArray.length) {
+    console.log('all complete');
+  };
+};
+
+function removeAddListMsg() {
+  var element = document.getElementById('add-list-msg');
+
+  if (element) {
+    element.parentNode.removeChild(element);
+  };  
+};
