@@ -19,6 +19,7 @@ mainSection.addEventListener('click', updateCardEvents);
 getFromStorage();
 persistOnLoad();
 enableBtns();
+injectAddListMsg();
 
 function createTaskEvents(e) {
   e.preventDefault();
@@ -72,6 +73,16 @@ function getFromStorage() {
   };
 };
 
+function injectAddListMsg() {
+  console.log('injectAddListMsg ran');
+  if (mainSection.innerHTML === '' || mainSection.innerHTML === ' ') {
+   mainSection.insertAdjacentHTML("afterbegin", 
+    `<article id="add-list-msg">
+      <p>Add a to-do list and get checkin' those boxes!</p>
+    </article>`)
+  }; 
+};
+
 function persistOnLoad() {
   if (toDoArray !== []) {
     toDoArray.forEach(function(toDoObj) {
@@ -110,17 +121,21 @@ function createList(e) {
 };
 
 function displayList(toDoObj) {
-  var urgent = 'images/urgent.svg';
+  var urgent;
+  var urgentClass;
 
   if (toDoObj.urgent === true) {
     urgent = 'images/urgent-active.svg'
+    urgentClass = 'urgent-article'
   } else {
     urgent = 'images/urgent.svg'
+    urgentClass = ''
+
   };
 
   mainSection.insertAdjacentHTML('afterbegin', 
     `
-    <article class="article" data-identifier="${toDoObj.id}">
+    <article class="article ${urgentClass}" data-identifier="${toDoObj.id}">
       <h3 class="article__title" contenteditable="true">${toDoObj.title}</h3>
       <ul class="article__ul" id="card-task-list" contenteditable="true">${makeListItems(toDoObj.tasks)}</ul> 
       <footer class="article__footer">  
@@ -138,12 +153,18 @@ function displayList(toDoObj) {
 
 function makeListItems(taskObj) {
   var listItems = '';
-
+  console.log(taskObj);
   taskObj.forEach(function(li) {
+    var imgSource;
+    if (li.complete) {
+      imgSource ='images/checkbox-active.svg';
+    } else {
+      imgSource ='images/checkbox.svg'
+    }
     listItems += 
     `
     <li class="" data-identifier="${li.id}" data-complete="${li.complete}">
-      <img src="images/checkbox.svg" id="task-complete-btn">
+      <img src="${imgSource}" id="task-complete-btn">
       ${li.task}
     </li>
     `
@@ -234,6 +255,36 @@ function completeTask(e) {
     e.target.closest('li').dataset.complete = 'false';
     e.target.closest('li').classList.remove('complete');
   };
+  var listID = parseInt(e.target.closest('article').dataset.identifier);
+  var taskID = parseInt(e.target.closest('li').dataset.identifier);
+  console.log(listID, taskID);
+  var targetObj = toDoArray.find(function(todo) {
+    return todo.id === listID
+  });
+  targetObj.tasks.forEach(function(task) {
+    if (task.id === taskID) {
+      task.complete = !task.complete
+    }
+    console.log(task)
+  })
+  var newToDoArray = toDoArray.filter(function(todo) {
+    return todo.id !== listID
+  })
+  newToDoArray.push(targetObj);
+  targetObj.saveToStorage(newToDoArray);
+  
+  // toDoArray.forEach(function(todo) {
+  //   todo.tasks.forEach(function(task) {
+  //      if (task.id === taskID) {
+  //         task.complete = !task.complete
+  //     }
+  //   })
+  // })
+
+  // toDoArray[0].saveToStorage(toDoArray);
+
+
+  console.log(targetObj);
 };
 
 function changeUrgency(e) {
@@ -249,5 +300,9 @@ function changeUrgencyImg(e) {
     e.target.closest('div').classList.add('urgent-icon');
   } else {
     e.target.src = 'images/urgent.svg';
+    e.target.closest('article').classList.remove('urgent-article');
+    e.target.closest('div').classList.remove ('urgent-icon');
   };
 };
+
+function enableDeleteBtn()
