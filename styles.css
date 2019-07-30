@@ -158,6 +158,11 @@ article ul li img {
   margin-right: 7px;
 }
 
+.complete {
+  font-style: italic;
+  color: #3C6577;
+}
+
 article footer {
   display: flex;
   justify-content: space-between;
@@ -176,4 +181,18 @@ article div img {
 article div p {
   color: #3C6577;
   font-size: .6em;
+}
+
+.urgent-article {
+  background-color: #FFE89D;
+  border: 1px solid #FFC30C;
+  color: #1F1F3D;
+}
+
+.urgent-borders {
+  border-bottom: #FFC30C;
+}
+
+.urgent-icon {
+  color: #B23A25;
 }

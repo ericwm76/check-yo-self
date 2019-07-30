@@ -228,17 +228,11 @@ function completeTask(e) {
   if (completedStatus === true) {
     e.target.src = 'images/checkbox-active.svg';
     e.target.closest('li').dataset.complete = 'true';
+    e.target.closest('li').classList.add('complete');
   } else {
     e.target.src = 'images/checkbox.svg';
     e.target.closest('li').dataset.complete = 'false';
-  };
-};
-
-function changeUrgencyImg(e) {
-  if (toDoArray[getIndex(e)].urgent === true) {
-    e.target.src = 'images/urgent-active.svg';
-  } else {
-    e.target.src = 'images/urgent.svg';
+    e.target.closest('li').classList.remove('complete');
   };
 };
 
@@ -246,4 +240,14 @@ function changeUrgency(e) {
   toDoArray[getIndex(e)].urgent = !toDoArray[getIndex(e)].urgent;
   toDoArray[getIndex(e)].saveToStorage(toDoArray);
   changeUrgencyImg(e);
+};
+
+function changeUrgencyImg(e) {
+  if (toDoArray[getIndex(e)].urgent === true) {
+    e.target.src = 'images/urgent-active.svg';
+    e.target.closest('article').classList.add('urgent-article');
+    e.target.closest('div').classList.add('urgent-icon');
+  } else {
+    e.target.src = 'images/urgent.svg';
+  };
 };
