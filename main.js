@@ -53,7 +53,7 @@ function createTaskEvents(e) {
 
 function updateCardEvents(e) {
   e.preventDefault();
-  if (e.target.id === 'delete-btn') {
+  if (e.target.id === `delete-btn${getIdentifier(e)}`) {
     removeList(e);
     injectAddListMsg();
   };
@@ -126,26 +126,27 @@ function displayList(toDoObj) {
 
   if (toDoObj.urgent === true) {
     urgent = 'images/urgent-active.svg'
-    urgentClass = 'urgent-article'
+    urgentClass = 'urgent'
+    urgentIcon = 'urgent-icon'
   } else {
     urgent = 'images/urgent.svg'
     urgentClass = ''
-
+    urgentIcon = ''
   };
 
   mainSection.insertAdjacentHTML('afterbegin', 
     `
-    <article class="article ${urgentClass}" data-identifier="${toDoObj.id}">
-      <h3 class="article__title" contenteditable="true">${toDoObj.title}</h3>
-      <ul class="article__ul" id="card-task-list" contenteditable="true">${makeListItems(toDoObj.tasks)}</ul> 
+    <article class="article ${urgentClass}" id="card${toDoObj.id}" data-identifier="${toDoObj.id}">
+      <h3 class="article__title ${urgentClass}" contenteditable="true" id="card-title${toDoObj.id}">${toDoObj.title}</h3>
+      <ul class="article__ul ${urgentClass}" id="card-list${toDoObj.id}" contenteditable="true">${makeListItems(toDoObj.tasks)}</ul> 
       <footer class="article__footer">  
         <div>
           <img src="${urgent}" id="urgent-image" alt="lightning bolt icon">
-          <p>URGENT</p>
+          <p class="${urgentIcon}" id="urgent-label${toDoObj.id}">URGENT</p>
         </div>
         <div>
-          <img src="images/delete.svg" id="delete-btn" alt="green x">
-          <p>DELETE</p>
+          <img src="images/delete.svg" id="delete-btn${toDoObj.id}" alt="green x">
+          <p id="delete-label${toDoObj.id}">DELETE</p>
         </div>
       </footer>  
     `);
@@ -221,9 +222,12 @@ function getIndex(e) {
 };
 
 function removeList(e) {
+  console.log(e.target.src);
+  if (e.target.src.includes('delete-active.svg')) {
   e.target.closest('article').remove();
   toDoArray[getIndex(e)].deleteFromStorage(getIdentifier(e));
   injectAddListMsg();
+  };
 };
 
 function getTaskIdentifier(e) {
@@ -288,21 +292,25 @@ function completeTask(e) {
 };
 
 function changeUrgency(e) {
-  toDoArray[getIndex(e)].urgent = !toDoArray[getIndex(e)].urgent;
-  toDoArray[getIndex(e)].saveToStorage(toDoArray);
+  toDoArray[getIndex(e)].updateToDo(toDoArray);
+
+    console.log(e.target.src)
+  if (e.target.src.includes('images/urgent.svg')) {
+    e.target.src = 'images/urgent-active.svg'
+  } else {
+    e.target.src = 'images/urgent.svg'
+  };
+
+  // toDoArray[getIndex(e)].saveToStorage(toDoArray);
   changeUrgencyImg(e);
 };
 
 function changeUrgencyImg(e) {
-  if (toDoArray[getIndex(e)].urgent === true) {
-    e.target.src = 'images/urgent-active.svg';
-    e.target.closest('article').classList.add('urgent-article');
-    e.target.closest('div').classList.add('urgent-icon');
-  } else {
-    e.target.src = 'images/urgent.svg';
-    e.target.closest('article').classList.remove('urgent-article');
-    e.target.closest('div').classList.remove ('urgent-icon');
-  };
+    // e.target.src = 'images/urgent-active.svg';
+    document.querySelector(`#card${getIdentifier(e)}`).classList.toggle('urgent');
+    document.querySelector(`#card-title${getIdentifier(e)}`).classList.toggle('urgent');
+    document.querySelector(`#card-list${getIdentifier(e)}`).classList.toggle('urgent');
+    document.querySelector(`#urgent-label${getIdentifier(e)}`).classList.toggle('urgent-icon');
 };
 
 function enableDeleteBtn(e) {
@@ -311,15 +319,18 @@ function enableDeleteBtn(e) {
   var completeCount = 0;
 
   listItemsArray.forEach(function(listItem) {
-    // console.log(JSON.parse(listItem.dataset.complete));
     if (JSON.parse(listItem.dataset.complete) === true) {
       completeCount++;
     };
   });
 
   if (completeCount === listItemsArray.length) {
-    console.log('all complete');
-  };
+    document.querySelector(`#delete-btn${getIdentifier(e)}`).src = 'images/delete-active.svg';
+    document.querySelector(`#delete-label${getIdentifier(e)}`).classList.add('urgent-icon');
+  } else {
+    document.querySelector(`#delete-btn${getIdentifier(e)}`).src = 'images/delete.svg';
+    document.querySelector(`#delete-label${getIdentifier(e)}`).classList.remove('urgent-icon');   
+  }
 };
 
 function removeAddListMsg() {

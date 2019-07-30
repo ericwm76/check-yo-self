@@ -15,11 +15,12 @@ class ToDoList {
     this.saveToStorage(toDoArray);
   };
 
-  updateToDo() {
-
+  updateToDo(gblArray) {
+    this.urgent = !this.urgent;
+    this.saveToStorage(gblArray);
   };
 
   updateTask() {
-    
+
   };
 };
