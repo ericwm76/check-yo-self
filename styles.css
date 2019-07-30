@@ -75,7 +75,7 @@ section form {
 section form label {
   font-size: .8em;
   color: #F3F6F7;
-  margin-bottom: 5px;
+  margin: 5px 0px;
 }
 
 section form input {
@@ -127,26 +127,18 @@ section button {
   width: 100%;
 }
 
-main {
-}
-
-main img {
-  height: 15px;
-  width: 15px;
-}
-
 article {
   background-color: #FAFDFF;
   border: 1px solid #C7D3D8;
   color: #1F1F3D;
   margin: 5%;
-  padding: 10px;
   width: 40%;
 }
 
 article h3 {
-  font-weight: 800;
   border-bottom: 1px solid #C7D3D8;
+  font-size: 1em;
+  padding: 7px;
 }
 
 article ul {
@@ -154,12 +146,34 @@ article ul {
   border-bottom: 1px solid #C7D3D8;
 }
 
+article ul li {
+  display: flex;
+  align-items: center;
+  padding: 7px;
+}
+
+article ul li img {
+  height: 15px;
+  width: 15px;
+  margin-right: 7px;
+}
+
 article footer {
   display: flex;
   justify-content: space-between;
+  padding: 7px;
 }
 
-article p {
+article div {
+  text-align: center;
+}
+
+article div img {
+  height: 20px;
+  width: 20px;
+}
+
+article div p {
   color: #3C6577;
-  font-size: .8em;
+  font-size: .6em;
 }
