@@ -3,7 +3,7 @@ var currentTasks = [];
 
 var leftSection = document.querySelector('section');
 var mainSection = document.querySelector('main');
-var searchBar = document.querySelector('.nav__search');
+var searchBar = document.querySelector('.nav__input');
 var titleInput = document.querySelector('#task-title-input');
 var taskInput = document.querySelector('#task-item-input');
 var makeListBtn = document.querySelector('#make-list-btn');
@@ -14,13 +14,17 @@ var tasksToCreate = document.querySelector('#tasks-to-create');
 leftSection.addEventListener('click', createTaskEvents);
 titleInput.addEventListener('keyup', enableBtns);
 mainSection.addEventListener('click', updateCardEvents);
-mainSection.addEventListener('focusout', saveCard)
+mainSection.addEventListener('focusout', saveCard);
+searchBar.addEventListener('keyup', displaySearch)
 
-// window.addEventListener('load', startOnLoad(e))
-getFromStorage();
-persistOnLoad();
-enableBtns();
-injectAddListMsg();
+window.addEventListener('load', startOnLoad);
+
+function startOnLoad(e) {
+  getFromStorage();
+  populateCards(toDoArray);
+  enableBtns();
+  injectAddListMsg();
+};
 
 function createTaskEvents(e) {
   e.preventDefault();
@@ -46,14 +50,11 @@ function createTaskEvents(e) {
   if (e.target.id === 'section-delete-btn') {
     removeTask(e);
   };
-
-  // if (e.target.id === 'urgency-filter-btn') {
-
-  // }; 
 };
 
 function updateCardEvents(e) {
   e.preventDefault();
+
   if (e.target.id === `delete-btn${getIdentifier(e)}`) {
     removeList(e);
     injectAddListMsg();
@@ -87,9 +88,9 @@ function injectAddListMsg() {
   }; 
 };
 
-function persistOnLoad() {
-  if (toDoArray !== []) {
-    toDoArray.forEach(function(toDoObj) {
+function populateCards(array) {
+  if (array !== []) {
+    array.forEach(function(toDoObj) {
       displayList(toDoObj);
     });
   };
@@ -213,7 +214,6 @@ function enableClearAllBtn() {
 };
 
 function getIdentifier(e) {
-  // console.log(e.target.closest('article').dataset.identifier);
   return e.target.closest('article').dataset.identifier;
 };
 
@@ -273,9 +273,9 @@ function changeUrgency(e) {
   toDoArray[getIndex(e)].updateToDo(toDoArray);
 
   if (e.target.src.includes('images/urgent.svg')) {
-    e.target.src = 'images/urgent-active.svg'
+    e.target.src = 'images/urgent-active.svg';
   } else {
-    e.target.src = 'images/urgent.svg'
+    e.target.src = 'images/urgent.svg';
   };
 };
 
@@ -321,4 +321,25 @@ function saveCard(e) {
     toDoArray[getIndex(e)].title = articleTitle;
     toDoArray[getIndex(e)].saveToStorage(toDoArray);
   };
+};
+
+function displaySearch() {
+  mainSection.innerHTML = '';
+
+  if (searchBar.value === '') {
+    populateCards(toDoArray);
+  } else {
+    var searchArray = filterBySearch();
+    populateCards(searchArray);
+  };
+};
+
+function filterBySearch() { 
+  var searchedArray = [];
+
+  searchedArray = toDoArray.filter(function(toDoList) {
+    return toDoList.title.toLowerCase().includes(searchBar.value.toLowerCase());
+  });
+
+  return searchedArray;
 };
