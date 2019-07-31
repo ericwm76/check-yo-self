@@ -41,30 +41,30 @@ Here are some of the many lessons I learned while working on Check Yo'self:
 
 <details><summary>Opening Page</summary>
 
-![](https://user-images.githubusercontent.com/27085714/62183774-fd4acb80-b34a-11e9-9a92-6c99b07af564.png)
+![](https://user-images.githubusercontent.com/27085714/62183775-fd4acb80-b34a-11e9-9c7b-326066a06064.png)
 
 </details>
 
 <details><summary>Creating a ToDo List</summary>
 
-![](https://user-images.githubusercontent.com/27085714/62183775-fd4acb80-b34a-11e9-9c7b-326066a06064.png)
-
-</details>
-
-<details><summary></summary>
-
 ![](https://user-images.githubusercontent.com/27085714/62183776-fde36200-b34a-11e9-89d8-ca09ec45651b.png)
 
 </details>
 
-<details><summary></summary>
+<details><summary>Many ToDo Lists, Some Marked Urgent</summary>
 
 ![](https://user-images.githubusercontent.com/27085714/62183777-fde36200-b34a-11e9-971c-eaf50b10a6e0.png)
 
 </details>
 
-<details><summary></summary>
+<details><summary>Searching Through the Lists</summary>
 
 ![](https://user-images.githubusercontent.com/27085714/62183779-fde36200-b34a-11e9-9c39-4fb3f7355cb0.png)
+
+</details>
+
+<details><summary>Mobile</summary>
+
+![](https://user-images.githubusercontent.com/27085714/62183774-fd4acb80-b34a-11e9-9a92-6c99b07af564.png)
 
 </details>
