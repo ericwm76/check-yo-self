@@ -1,5 +1,4 @@
 * {
-  /*border: 1px solid green;*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -80,7 +79,7 @@ section form label {
 }
 
 section form input {
-  border: 1px solid #1F1F3D;
+  border: 2px solid #1F1F3D;
   border-radius: 3px;
   font-size: 1.1em;
   height: 40px;
@@ -145,9 +144,7 @@ article {
   border: 1px solid #C7D3D8;
   break-inside: avoid;
   color: #1F1F3D;
-  /*margin: 5%;*/
   margin-bottom: 25px;
-  /*width: 40%;*/
 }
 
 article h3 {
@@ -208,6 +205,14 @@ article div p {
   color: #B23A25;
 }
 
+#add-list-msg {
+  background-color: #FFE89D;
+  border: 2px dotted #FFC30C;
+  height: auto;
+  padding: 20px;
+  text-align: center;
+}
+
 @media screen and (max-width: 575px) {
   body {
     display: grid;
@@ -216,7 +221,7 @@ article div p {
         'section'
         'main';
     grid-template-columns: 1fr;
-    grid-template-rows: 15vh 55vh auto;
+    grid-template-rows: 16vh 52vh auto;
   }
 
   nav {
@@ -255,5 +260,9 @@ article div p {
     grid-area: main;
     column-count: 1;
     column-width: 100%;
+  }
+
+  #urgency-filter-btn {
+    margin: 20px 0px 0px 0px;
   }
 }

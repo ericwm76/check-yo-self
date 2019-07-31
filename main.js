@@ -80,11 +80,9 @@ function getFromStorage() {
 function injectAddListMsg() {
   if (mainSection.innerHTML === '' || mainSection.innerHTML === ' ') {
     mainSection.insertAdjacentHTML("afterbegin", 
-      `
-      <article id="add-list-msg">
+      `<article id="add-list-msg">
         <p>Add a to-do list and get checkin' those boxes!</p>
-      </article>
-      `
+      </article>`
     );
   }; 
 };
@@ -106,13 +104,11 @@ function createTasks(e) {
 };  
 
 function displayTasks(taskObj) {
-  tasksToCreate.insertAdjacentHTML('beforeend', 
-    `
-    <li class="" data-identifier="${taskObj.id}">
+  tasksToCreate.insertAdjacentHTML('beforeend',
+    `<li class="" data-identifier="${taskObj.id}">
     <img src="images/delete.svg" id="section-delete-btn">
     ${taskObj.task}
-    </li>
-    `
+    </li>`
   );
 };
 
@@ -140,8 +136,7 @@ function displayList(toDoObj) {
   };
 
   mainSection.insertAdjacentHTML('afterbegin', 
-    `
-    <article class="article ${urgentClass}" id="card${toDoObj.id}" data-identifier="${toDoObj.id}">
+    `<article class="article ${urgentClass}" id="card${toDoObj.id}" data-identifier="${toDoObj.id}">
       <h3 class="article__title ${urgentClass}" contenteditable="true" id="card-title${toDoObj.id}">${toDoObj.title}</h3>
       <ul class="article__ul ${urgentClass}" id="card-list${toDoObj.id}">${makeListItems(toDoObj.tasks)}</ul> 
       <footer class="article__footer ${urgentClass}" id="card-footer${toDoObj.id}">  
@@ -153,8 +148,7 @@ function displayList(toDoObj) {
           <img src="images/delete.svg" id="delete-btn${toDoObj.id}" alt="green x">
           <p id="delete-label${toDoObj.id}">DELETE</p>
         </div>
-      </footer>  
-    `
+      </footer>`
   );
 };
 
@@ -174,12 +168,10 @@ function makeListItems(taskObj) {
     };
 
     listItems += 
-    `
-    <li class="article__li ${taskComplete}" data-identifier="${li.id}" data-complete="${li.complete}" contenteditable="true">
+    `<li class="article__li ${taskComplete}" data-identifier="${li.id}" data-complete="${li.complete}" contenteditable="true">
       <img src="${imgSource}" id="task-complete-btn">
       ${li.task}
-    </li>
-    `
+    </li>`
   });
     return listItems;
 };
